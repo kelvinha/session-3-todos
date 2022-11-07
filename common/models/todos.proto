@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package model;
+
+import "google/protobuf/Empty.proto";
+import "google/api/annotations.proto";
+
+option go_package = "/models";
+
+message Todo {
+    string id = 1;
+    string activity = 2;
+}
+
+message TodoList {
+    repeated Todo list = 1;
+}
+
+message TodoId {
+    string id = 1;
+}
+
+message TodoUpdate {
+    string id = 1;
+    string activity = 2;
+}
+
+service Todos {
+    rpc Add(Todo) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/v1/todos",
+            body: "*"
+            };
+    }
+    rpc List(google.protobuf.Empty) returns (TodoList) {
+        option (google.api.http) = {
+            get: "/v1/todos/list",
+            };
+    }
+    rpc Delete(TodoId) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/v1/todos/delete/{id}",
+            };
+    }
+    rpc Update(TodoUpdate) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "/v1/todos/update/{id}",
+            body: "*"
+            };
+    }
+}
