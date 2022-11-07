@@ -23,10 +23,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TodosClient interface {
-	Add(ctx context.Context, in *Todo, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*TodoList, error)
-	Delete(ctx context.Context, in *TodoId, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	Update(ctx context.Context, in *TodoUpdate, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Add(ctx context.Context, in *Todo, opts ...grpc.CallOption) (*MutationResponse, error)
+	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllResponse, error)
+	Delete(ctx context.Context, in *TodoId, opts ...grpc.CallOption) (*MutationResponse, error)
+	Update(ctx context.Context, in *TodoUpdate, opts ...grpc.CallOption) (*MutationResponse, error)
 }
 
 type todosClient struct {
@@ -37,8 +37,8 @@ func NewTodosClient(cc grpc.ClientConnInterface) TodosClient {
 	return &todosClient{cc}
 }
 
-func (c *todosClient) Add(ctx context.Context, in *Todo, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *todosClient) Add(ctx context.Context, in *Todo, opts ...grpc.CallOption) (*MutationResponse, error) {
+	out := new(MutationResponse)
 	err := c.cc.Invoke(ctx, "/model.Todos/Add", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -46,8 +46,8 @@ func (c *todosClient) Add(ctx context.Context, in *Todo, opts ...grpc.CallOption
 	return out, nil
 }
 
-func (c *todosClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*TodoList, error) {
-	out := new(TodoList)
+func (c *todosClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllResponse, error) {
+	out := new(GetAllResponse)
 	err := c.cc.Invoke(ctx, "/model.Todos/List", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -55,8 +55,8 @@ func (c *todosClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.
 	return out, nil
 }
 
-func (c *todosClient) Delete(ctx context.Context, in *TodoId, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *todosClient) Delete(ctx context.Context, in *TodoId, opts ...grpc.CallOption) (*MutationResponse, error) {
+	out := new(MutationResponse)
 	err := c.cc.Invoke(ctx, "/model.Todos/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -64,8 +64,8 @@ func (c *todosClient) Delete(ctx context.Context, in *TodoId, opts ...grpc.CallO
 	return out, nil
 }
 
-func (c *todosClient) Update(ctx context.Context, in *TodoUpdate, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *todosClient) Update(ctx context.Context, in *TodoUpdate, opts ...grpc.CallOption) (*MutationResponse, error) {
+	out := new(MutationResponse)
 	err := c.cc.Invoke(ctx, "/model.Todos/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -77,10 +77,10 @@ func (c *todosClient) Update(ctx context.Context, in *TodoUpdate, opts ...grpc.C
 // All implementations must embed UnimplementedTodosServer
 // for forward compatibility
 type TodosServer interface {
-	Add(context.Context, *Todo) (*emptypb.Empty, error)
-	List(context.Context, *emptypb.Empty) (*TodoList, error)
-	Delete(context.Context, *TodoId) (*emptypb.Empty, error)
-	Update(context.Context, *TodoUpdate) (*emptypb.Empty, error)
+	Add(context.Context, *Todo) (*MutationResponse, error)
+	List(context.Context, *emptypb.Empty) (*GetAllResponse, error)
+	Delete(context.Context, *TodoId) (*MutationResponse, error)
+	Update(context.Context, *TodoUpdate) (*MutationResponse, error)
 	mustEmbedUnimplementedTodosServer()
 }
 
@@ -88,16 +88,16 @@ type TodosServer interface {
 type UnimplementedTodosServer struct {
 }
 
-func (UnimplementedTodosServer) Add(context.Context, *Todo) (*emptypb.Empty, error) {
+func (UnimplementedTodosServer) Add(context.Context, *Todo) (*MutationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
 }
-func (UnimplementedTodosServer) List(context.Context, *emptypb.Empty) (*TodoList, error) {
+func (UnimplementedTodosServer) List(context.Context, *emptypb.Empty) (*GetAllResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedTodosServer) Delete(context.Context, *TodoId) (*emptypb.Empty, error) {
+func (UnimplementedTodosServer) Delete(context.Context, *TodoId) (*MutationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedTodosServer) Update(context.Context, *TodoUpdate) (*emptypb.Empty, error) {
+func (UnimplementedTodosServer) Update(context.Context, *TodoUpdate) (*MutationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedTodosServer) mustEmbedUnimplementedTodosServer() {}

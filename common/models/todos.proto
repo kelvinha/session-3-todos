@@ -25,24 +25,32 @@ message TodoUpdate {
     string activity = 2;
 }
 
+message GetAllResponse {
+    repeated Todo data = 1;
+}
+
+message MutationResponse {
+    string msg = 1;
+}
+
 service Todos {
-    rpc Add(Todo) returns (google.protobuf.Empty) {
+    rpc Add(Todo) returns (MutationResponse) {
         option (google.api.http) = {
             post: "/v1/todos",
             body: "*"
             };
     }
-    rpc List(google.protobuf.Empty) returns (TodoList) {
+    rpc List(google.protobuf.Empty) returns (GetAllResponse) {
         option (google.api.http) = {
             get: "/v1/todos/list",
             };
     }
-    rpc Delete(TodoId) returns (google.protobuf.Empty) {
+    rpc Delete(TodoId) returns (MutationResponse) {
         option (google.api.http) = {
             delete: "/v1/todos/delete/{id}",
             };
     }
-    rpc Update(TodoUpdate) returns (google.protobuf.Empty) {
+    rpc Update(TodoUpdate) returns (MutationResponse) {
         option (google.api.http) = {
             put: "/v1/todos/update/{id}",
             body: "*"

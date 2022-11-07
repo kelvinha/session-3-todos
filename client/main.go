@@ -7,7 +7,6 @@ import (
 	"session-3-todos/common/config"
 	"session-3-todos/common/models"
 
-	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -31,6 +30,6 @@ func main() {
 
 	todoSvc.Add(context.Background(), todo1)
 
-	todos, _ := todoSvc.List(context.Background(), new(empty.Empty))
-	log.Printf("List Users %+v\n", todos.GetList())
+	// todos, _ := todoSvc.List(context.Background(), new(empty.Empty))
+	// log.Printf("List Users %+v\n", todos.GetList())
 }

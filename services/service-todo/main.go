@@ -26,32 +26,32 @@ type TodosServer struct {
 	models.UnimplementedTodosServer
 }
 
-func (TodosServer) Add(ctx context.Context, param *models.Todo) (*empty.Empty, error) {
+func (TodosServer) Add(ctx context.Context, param *models.Todo) (*models.MutationResponse, error) {
 	localStorage.List = append(localStorage.List, param)
 	log.Println("Add Activity - ", param.String())
-	return new(empty.Empty), nil
+	return &models.MutationResponse{Msg: "Succesfull Created"}, nil
 }
 
-func (TodosServer) List(ctx context.Context, void *empty.Empty) (*models.TodoList, error) {
-	return localStorage, nil
+func (TodosServer) List(ctx context.Context, void *empty.Empty) (*models.GetAllResponse, error) {
+	return &models.GetAllResponse{Data: localStorage.List}, nil
 }
 
-func (TodosServer) Delete(ctx context.Context, deleteByID *models.TodoId) (*empty.Empty, error) {
+func (TodosServer) Delete(ctx context.Context, deleteByID *models.TodoId) (*models.MutationResponse, error) {
 	for index, data := range localStorage.List {
 		if data.Id == deleteByID.Id {
 			localStorage.List = append(localStorage.List[:index], localStorage.List[index+1:]...)
 		}
 	}
-	return new(empty.Empty), nil
+	return &models.MutationResponse{Msg: "Deleted Succes !"}, nil
 }
 
-func (TodosServer) Update(ctx context.Context, reqUpdate *models.TodoUpdate) (*empty.Empty, error) {
+func (TodosServer) Update(ctx context.Context, reqUpdate *models.TodoUpdate) (*models.MutationResponse, error) {
 	for index, data := range localStorage.List {
 		if data.Id == reqUpdate.Id {
 			localStorage.List[index].Activity = reqUpdate.Activity
 		}
 	}
-	return new(empty.Empty), nil
+	return &models.MutationResponse{Msg: "Updated Succes !"}, nil
 }
 
 func main() {

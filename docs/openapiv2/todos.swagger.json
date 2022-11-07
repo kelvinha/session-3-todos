@@ -23,8 +23,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/definitions/modelMutationResponse"
             }
           },
           "default": {
@@ -56,8 +55,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/definitions/modelMutationResponse"
             }
           },
           "default": {
@@ -87,7 +85,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/modelTodoList"
+              "$ref": "#/definitions/modelGetAllResponse"
             }
           },
           "default": {
@@ -109,8 +107,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/definitions/modelMutationResponse"
             }
           },
           "default": {
@@ -148,6 +145,25 @@
     }
   },
   "definitions": {
+    "modelGetAllResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/modelTodo"
+          }
+        }
+      }
+    },
+    "modelMutationResponse": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string"
+        }
+      }
+    },
     "modelTodo": {
       "type": "object",
       "properties": {
@@ -156,17 +172,6 @@
         },
         "activity": {
           "type": "string"
-        }
-      }
-    },
-    "modelTodoList": {
-      "type": "object",
-      "properties": {
-        "list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/modelTodo"
-          }
         }
       }
     },
